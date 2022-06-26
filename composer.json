@@ -1,0 +1,22 @@
+{
+    "name": "vasqo/mediumcolor",
+    "type": "library",
+    "description": "Get medium color in picture (PHP)",
+    "keywords": ["colors", "color", "medium color", "PHP", "GD2"],
+    "license": "MIT",
+    "version": "1.0.0",
+    "autoload": {
+        "psr-4": {
+            "Vasqo\\Mediumcolor\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Vasqo"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=7.2"
+    }
+}
