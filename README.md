@@ -158,32 +158,56 @@ Array
 
 $imageThree = new MediumColor(__DIR__ . "/images/test4.png");
 
-$mediumColorThree = $imageThree->getHEXColorsRange(4);
+$mediumColorThree = $imageThree->getHEXColorsRange();
 /* RETURN:
 Array
 (
     [0] => Array
         (
-            [percent] => 21.85
-            [HEX] => #010001
+            [percent] => 88.83
+            [HEX] => #380C2A
         )
 
     [1] => Array
         (
-            [percent] => 1.37
-            [HEX] => #272D32
+            [percent] => 0.33
+            [HEX] => #3A0C2A
         )
 
     [2] => Array
         (
-            [percent] => 0.84
-            [HEX] => #242A2E
+            [percent] => 0.26
+            [HEX] => #2B2B2B
         )
 
     [3] => Array
         (
-            [percent] => 0.83
-            [HEX] => #252A2F
+            [percent] => 0.26
+            [HEX] => #2C2C2C
+        )
+
+    [4] => Array
+        (
+            [percent] => 0.21
+            [HEX] => #CF7645
+        )
+
+    [5] => Array
+        (
+            [percent] => 0.2
+            [HEX] => #380E43
+        )
+
+    [6] => Array
+        (
+            [percent] => 0.18
+            [HEX] => #8EC4FA
+        )
+
+    [7] => Array
+        (
+            [percent] => 0.18
+            [HEX] => #0A0A0A
         )
 
 )
