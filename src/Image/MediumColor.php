@@ -2,6 +2,7 @@
 
 namespace Vasqo\Mediumcolor\Image;
 
+use Vasqo\Mediumcolor\ColorConverter\Converter;
 
 final class MediumColor
 {
@@ -34,12 +35,14 @@ final class MediumColor
         return $this->getMediumColor();
     }
 
-    public function getRGBString()
+    /**
+     * @return string
+     */
+    public function getRGBString(): string
     {
         $rgbMediumColor = $this->getMediumColor();
 
-        return sprintf(
-            "rgb(%u,%u,%u)",
+        return Converter::rgbToString(
             $rgbMediumColor["red"],
             $rgbMediumColor["green"],
             $rgbMediumColor["blue"]
@@ -53,12 +56,102 @@ final class MediumColor
     {
         $rgbMediumColor = $this->getMediumColor();
 
-        return sprintf(
-            "#%02X%02X%02X",
+        return Converter::rgbToHEX(
             $rgbMediumColor["red"],
             $rgbMediumColor["green"],
             $rgbMediumColor["blue"]
         );
+    }
+
+    /**
+     * @param int $limit
+     * @return array
+     */
+    public function getRGBColorsRange(int $limit = 8): array
+    {
+        $colors = $this->getMediumColors();
+
+        return array_slice($colors, 0, $limit);
+    }
+
+    /**
+     * @param int $limit
+     * @return array
+     */
+    public function getRGBStringColorsRange(int $limit = 8) : array
+    {
+        $colors = $this->getMediumColors();
+
+        foreach ($colors as $key=>$color) {
+            $colors[$key]["RGB"] = Converter::rgbToString(
+                $color["RGB"]["red"],
+                $color["RGB"]["green"],
+                $color["RGB"]["blue"]
+            );
+        }
+
+        return array_slice($colors, 0, $limit);
+    }
+
+    public function getHEXColorsRange(int $limit = 8) : array
+    {
+        $colors = $this->getMediumColors();
+
+        foreach ($colors as $key=>$color) {
+            $colors[$key]["HEX"] = Converter::rgbToHEX(
+                $color["RGB"]["red"],
+                $color["RGB"]["green"],
+                $color["RGB"]["blue"]
+            );
+
+            unset($colors[$key]["RGB"]);
+        }
+
+        return array_slice($colors, 0, $limit);
+    }
+
+    /**
+     * @return array
+     */
+    private function getMediumColors(): array
+    {
+        $imageColors = $this->getColors();
+
+        $colorsList = [];
+
+        $maxColors = count($imageColors);
+
+        foreach ($imageColors as $key => $color) {
+            $index = Converter::rgbToHEX(
+                $color["red"],
+                $color["green"],
+                $color["blue"],
+            );
+
+            if (isset($colorsList[$index])) {
+                $colorsList[$index]["index"]++;
+            } else {
+                $colorsList[$index] = [
+                    'key' => $key,
+                    'index' => 1
+                ];
+            }
+        }
+
+        usort($colorsList, function ($a, $b) {
+            return $a["index"] < $b["index"];
+        });
+
+        $finalColorsRange = [];
+        foreach ($colorsList as $color) {
+            $percent = round($color["index"] / $maxColors * 100, 2);
+            $finalColorsRange[] = [
+                'RGB'=>$imageColors[$color["key"]],
+                'percent'=>$percent
+            ];
+        }
+
+        return $finalColorsRange;
     }
 
     /**
@@ -117,4 +210,6 @@ final class MediumColor
 
         return imagecolorsforindex($this->imageResource, $colorIndex);
     }
+
+
 }
